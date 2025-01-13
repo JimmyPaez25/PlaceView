@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>PlaceView</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #212428;
+                color: white;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+            }
+
+            .topbar {
+                height: 60px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px;
+                border-bottom: 1px solid white;
+            }
+
+            .topbar img {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+
+            .topbar .title {
+                display: flex;
+                align-items: center;
+            }
+
+            .main-content {
+                display: flex;
+                flex: 1;
+            }
+
+            .sidebar {
+                width: 20%;
+                background-color: #2b2f33;
+                border-right: 1px solid white;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .sidebar img {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 20px;
+                align-self: center;
+            }
+
+            .sidebar a {
+                text-decoration: none;
+                color: white;
+                margin: 10px 0;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+            }
+
+            .sidebar a i {
+                margin-right: 10px;
+            }
+
+            .sidebar button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #3a3f44;
+                border: 1px solid white;
+                color: white;
+                cursor: pointer;
+                align-self: center;
+            }
+
+            .main {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .tabs {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 40px;
+                border-bottom: 1px solid white;
+            }
+
+            .tabs div {
+                padding: 10px 20px;
+                cursor: pointer;
+            }
+
+            .tabs div:hover {
+                background-color: #3a3f44;
+            }
+
+            .content {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .rightbar {
+                width: 20%;
+                background-color: #2b2f33;
+                border-left: 1px solid white;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .searchbar {
+                display: flex;
+                align-items: center;
+                background-color: #3a3f44;
+                padding: 5px;
+                border: 1px solid white;
+                border-radius: 5px;
+                width: 100%;
+            }
+
+            .searchbar input {
+                background-color: transparent;
+                border: none;
+                color: white;
+                outline: none;
+                padding: 5px;
+                flex: 1;
+            }
+
+            .searchbar button {
+                background-color: transparent;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="container">
+            <div class="topbar">
+                <div class="title">
+                    <img th:src="@{/images/icon-placeholder.png}" alt="Icon">
+                    <div>PlaceView</div>
+                </div>
+                <button th:onclick="|window.location.href='@{/profile}'|">Perfil</button>
+            </div>
+            <div class="main-content">
+                <div class="sidebar">
+                    <a th:href="@{/home}"><i class="icon">🏠</i>Home</a>
+                    <a th:href="@{/notifications}"><i class="icon">🔔</i>Notificaciones</a>
+                    <button th:onclick="|window.location.href='@{/post}'|">+ Postear</button>
+                </div>
+                <div class="main">
+                    <div class="tabs">
+                        <div th:onclick="|window.location.href='@{/following}'|">Siguiendo</div>
+                        <div th:onclick="|window.location.href='@{/foryou}'|">Para ti</div>
+                    </div>
+                    <div class="content">
+                        <div th:if="${usuarios != null and !usuarios.empty}">
+                            <table border="2">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Contraseña</th>
+                                    <th>fotoPerfil</th>
+                                    <th>fotoPortada</th>
+                                    <th>descripcion</th>
+                                </tr>
+                                <tr th:each="usuario : ${usuarios}">
+                                    <td th:text="${usuario.username}">Muestra username</td>
+                                    <td th:text="${usuario.email}">Muestra email</td>
+                                    <td th:text="${usuario.contraseña}">Muestra contraseña</td>
+                                    <td th:text="${usuario.fotoPerfil}">Muestra foto de perfil</td>
+                                    <td th:text="${usuario.fotoPortada}">Muestra Foto de portada</td>
+                                    <td th:text="${usuario.descripcion}">Muestra descripcion</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p th:if="${usuarios == null or usuarios.empty}">No hay usuarios para mostrar.</p>
+                    </div>
+                    <p th:text="${mainContent}">Contenido dinámico aquí</p>
+                </div>
+                <div class="rightbar">
+                    <div class="searchbar">
+                        <input type="text" placeholder="Buscar">
+                        <button>🔍</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
